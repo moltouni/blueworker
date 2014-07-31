@@ -6,15 +6,19 @@ block content
 
 	.torrents
 		table
-			tbody
+			thead
 				tr
+					th
 					th Name
 					th Priority
 					th Seed boxes
-			each torrent in torrents
-				tr 
-					td #{torrent.Name}
-					td #{torrent.PriorityCounter}
-					td #{torrent.Seeders}
+			tbody(data-bind='foreach: torrents')
+				tr
+					td
+						a(data-bind="attr: { href: MagnetLink }").magnetLink
+					td(data-bind='text: Name')
+					td(data-bind='text: PriorityCounter')
+					td(data-bind='text: Seeders')
 	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+	script(src='/scripts/knockout.js')
 	script(src='/scripts/clientScript.js')

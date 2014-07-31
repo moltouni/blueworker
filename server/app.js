@@ -1,9 +1,3 @@
-//var express = require("express");
-//var db = require("./model/db");
-//var routes = require("./routes");
-//var http = require("http");
-//var path = require("path");
-
 var application_root = __dirname;
 
 //
@@ -70,34 +64,38 @@ app.configure(function () {
 });
 
 app.get('/', function(req, res) {
-	torrentRequests.torrentRequestList(function(error, data) {
+	torrentRequests.GetTorrentList(0, 20, function (error, data) {
 		res.render('index',
 		{
-			title: 'Home',
-			torrents: data
+			title: 'Home'
 		});
+	});
+});
+
+app.get('/api/get', function(req, res) {
+	var startIndex = req.param("start");
+	var numberOfItems = req.param("limit");
+
+	torrentRequests.GetTorrentList(startIndex, numberOfItems, function(error, torrents) {
+		res.send(torrents);
 	});
 });
 
 app.get('/api/submit', function (req, res) {
 	var magnetLink = req.param("link");
 	var parsed = magnet(magnetLink);
-	
-	var Torrent = mongoose.model('TorrentRequest');
-	Torrent.find({ "MagnetLink": magnetLink }, function (error, data) {
-		if (data.length) {
-			data[0].PriorityCounter++;
-			data[0].save();
-			res.send("Updated");
-		} else {
-			var instance1 = new Torrent({
-				MagnetLink: magnetLink,
-				Name: parsed.dn,
-				PriorityCounter: 1,
-				Seeders: 0
+
+	torrentRequests.GetTorrentByMagnetLink(magnetLink, function(error, torrent) {
+		// Create if none matched, update otherwise
+		if (error || !torrent) {
+			torrentRequests.CreateTorrentRequest(magnetLink, parsed["dn"], function() {
+				res.send({ status: "created" });
 			});
-			instance1.save();
-			res.send("Created");
+		} else {
+			torrent.PriorityCounter++;
+			torrentRequests.UpdateTorrentRequest(torrent, function() {
+				res.send({ status: "updated" });
+			});
 		}
 	});
 });
@@ -120,15 +118,4 @@ var instance1 = new Torrent({
 	PriorityCounter: 3,
 	Seeders: 1
 });
-*/
-
-/*
-var magnet = require('magnet-uri')
-
-// "Leaves of Grass" by Walt Whitman
-var uri = 'magnet:?xt=urn:btih:aecb9c886f67d6c36af4563152d143fefd3a1fff&dn=Dawn.Of.The.Planet.Of.The.Apes.2014.TS.XviD.MP3-RARBG&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
-
-var parsed = magnet(uri)
-console.log(parsed.dn) 
-console.log(parsed.infoHash) 
 */
