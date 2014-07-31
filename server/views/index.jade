@@ -1,0 +1,13 @@
+﻿extend layout
+block content
+	table
+		tbody
+			tr
+				td Name
+				td Priority
+				td Seed boxes
+		each torrent in torrents
+			tr 
+				td #{torrent.Name}
+				td #{torrent.PriorityCounter}
+				td #{torrent.Seeders}
