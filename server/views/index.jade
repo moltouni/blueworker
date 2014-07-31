@@ -12,6 +12,7 @@ block content
 					th Name
 					th Priority
 					th Seed boxes
+					th Score
 			tbody(data-bind='foreach: torrents')
 				tr
 					td
@@ -19,6 +20,7 @@ block content
 					td(data-bind='text: Name')
 					td(data-bind='text: PriorityCounter')
 					td(data-bind='text: Seeders')
+					td(data-bind='text: Score')
 	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 	script(src='/scripts/knockout.js')
 	script(src='/scripts/clientScript.js')

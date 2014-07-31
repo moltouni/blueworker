@@ -66,18 +66,57 @@ app.get('/', function(req, res) {
 // 
 // Express API request registration
 //
-app.get('/api/get', function(req, res) {
+app.get('/api/get', function (req, res) {
+	/// <summary>
+	/// Returns list of active torrent requests
+	/// </summary>
+	/// <param name="req">
+	/// [Optional] POST parameter `start` - number of torrents to skip, zero-indexed
+	/// [Optional] POST parameter `limit` - limit number of torrents to return
+	/// </param>
+	/// <param name="res">
+	/// Responds with array of torrents in given range when there is no error.
+	/// Responds with `status` as message and error `code`
+	/// 
+	/// Error codes
+	/// API1001 - Error retrieving data from database
+	/// </param>
+
 	var startIndex = req.param("start");
 	var numberOfItems = req.param("limit");
 
-	torrentRequests.GetTorrentList(startIndex, numberOfItems, function(error, torrents) {
-		res.send(torrents);
+	torrentRequests.GetTorrentList(startIndex, numberOfItems, function (error, torrents) {
+		if (error) {
+			res.send({ status: "unable to retrueve torrents. " + error, code: "API1001" });
+		} else {
+			res.send(torrents);
+		}
 	});
 });
 
 app.get('/api/submit', function (req, res) {
+	/// <summary>
+	/// Accepts torrent requests
+	/// </summary>
+	/// <param name="req">
+	/// POST parameter `link` - requested magnet link
+	/// 
+	/// Valid magnet link must contain at least `xt` argument
+	/// </param>
+	/// <param name="res">
+	/// Responds with `status: created` or `status: updated` when there is no error.
+	/// Responds with `status` as message and error `code`
+	/// 
+	/// Error codes
+	/// API1101 - Magnet link doedn'try contain `xt` argument
+	/// </param>
+
 	var magnetLink = req.param("link");
 	var parsed = magnet(magnetLink);
+
+	if (!parsed["xt"]) {
+		res.send({ status: "invalid magnet link. xt must be provided", code: "API1101" });
+	}
 
 	torrentRequests.GetTorrentByMagnetLink(magnetLink, function(error, torrent) {
 		// Create if none matched, update otherwise
