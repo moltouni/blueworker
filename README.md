@@ -1,6 +1,6 @@
-#blueworker
+##blueworker
 
-##Server
+###Server
 
 ###Libraries
 
@@ -15,13 +15,13 @@
 - [Knockout.js](http://knockoutjs.com/)
 - [jQuery](http://jquery.com/)
 
-###MongoDB setup
+####MongoDB setup
 
 `md \data\db` in project folder
 
 `mongod.exe`
 
-###Node.js usage
+####Node.js usage
 
 `npm install`
 
