@@ -6,7 +6,9 @@ exports.CompileScheme = function CompileScheme() {
 		MagnetLink: String,
 		Name: String,
 		PriorityCounter: Number,
-		Seeders: Number
+		Seeders: Number,
+		SeedersFull: Number,
+		Score: Number
 	});
 
 	// Compile scheme
@@ -15,7 +17,9 @@ exports.CompileScheme = function CompileScheme() {
 	console.log("TorrentRequest Scheme compiled");
 };
 
+
 exports.UpdateTorrentRequest = function UpdateTorrentRequest(request, callback) {
+	request.Score = request.PriorityCounter - request.Seeders;
 	request.save();
 	callback();
 };
@@ -26,7 +30,9 @@ exports.CreateTorrentRequest = function CreateTorrentRequest(link, name, callbac
 		MagnetLink: link,
 		Name: name || "Name not provided",
 		PriorityCounter: 1,
-		Seeders: 0
+		Seeders: 0,
+		SeedersFull: 0,
+		Score: 1
 	});
 	requestInstance.save();
 	callback();
@@ -57,7 +63,7 @@ exports.GetTorrentList = function GetTorrentList(toSkip, limit, callback) {
 		skip: toSkip || 50,
 		limit: limit || 50,
 		sort: {
-			PriorityCounter: -1 //Sort by priority DESC
+			Score: -1 //Sort by Score DESC
 		}
 	}, function (err, torrents) {
 		if (err) {

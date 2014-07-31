@@ -66,18 +66,97 @@ app.get('/', function(req, res) {
 // 
 // Express API request registration
 //
-app.get('/api/get', function(req, res) {
+app.get('/api/seeding', function(req, res) {
+	/// <summary>
+	/// Marks torrent request with seeder. This is called when 
+	/// seed-box downloads torrent and starts only seeding.
+	/// </summary>
+	/// <param name="req">
+	/// POST `link` - magnet link that is being seeded
+	/// </param>
+	/// <param name="res">
+	/// Responds with `status: ok` when there is no error
+	/// Responds with `status` as message and error `code`
+	/// 
+	/// Error codes
+	/// API1201 - Couldn'try find torrent request with given magnet link
+	/// </param>
+
+	var magnetLink = req.param("link");
+
+	torrentRequests.GetTorrentByMagnetLink(magnetLink, function(error, torrent) {
+		if (error || !torrent) {
+			res.send({ status: "no matching torrent request found " + magnetLink, code: "API1201" });
+		} else {
+			torrent.SeedersFull++;
+			torrentRequests.UpdateTorrentRequest(torrent, function() {
+				res.send({ status: "ok" });
+			});
+		}
+	});
+});
+
+app.get('/api/get', function (req, res) {
+	/// <summary>
+	/// Returns list of active torrent requests
+	/// </summary>
+	/// <param name="req">
+	/// [Optional] POST `start` - number of torrents to skip, zero-indexed
+	/// [Optional] POST `limit` - limit number of torrents to return
+	/// [Optional] POST `seeder` - value `true` signals that these torrents are being seeded by seed-box
+	/// </param>
+	/// <param name="res">
+	/// Responds with array of torrents in given range when there is no error.
+	/// Responds with `status` as message and error `code`
+	/// 
+	/// Error codes
+	/// API1001 - Error retrieving data from database
+	/// </param>
+
 	var startIndex = req.param("start");
 	var numberOfItems = req.param("limit");
+	var isSeedBox = req.param("seeder") == "true";
 
-	torrentRequests.GetTorrentList(startIndex, numberOfItems, function(error, torrents) {
-		res.send(torrents);
+	torrentRequests.GetTorrentList(startIndex, numberOfItems, function (error, torrents) {
+		if (error) {
+			res.send({ status: "unable to retrueve torrents. " + error, code: "API1001" });
+		} else {
+			if (isSeedBox) {
+				// Increment seeders count if this request came from seeder-bix
+				for (var index = 0; index < torrents.length; index++) {
+					torrents[index].Seeders++;
+					torrentRequests.UpdateTorrentRequest(torrents[index], function() {});
+				}
+			}
+
+			res.send(torrents);
+		}
 	});
 });
 
 app.get('/api/submit', function (req, res) {
+	/// <summary>
+	/// Accepts torrent requests
+	/// </summary>
+	/// <param name="req">
+	/// POST `link` - requested magnet link
+	/// 
+	/// Valid magnet link must contain at least `xt` argument
+	/// </param>
+	/// <param name="res">
+	/// Responds with `status: created` or `status: updated` when there is no error.
+	/// Responds with `status` as message and error `code`
+	/// 
+	/// Error codes
+	/// API1101 - Magnet link doedn'try contain `xt` argument
+	/// </param>
+
 	var magnetLink = req.param("link");
 	var parsed = magnet(magnetLink);
+
+	if (!parsed["xt"]) {
+		res.send({ status: "invalid magnet link. xt must be provided", code: "API1101" });
+	}
 
 	torrentRequests.GetTorrentByMagnetLink(magnetLink, function(error, torrent) {
 		// Create if none matched, update otherwise

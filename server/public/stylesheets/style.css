@@ -182,7 +182,8 @@ header {
   color: #555;
 }
 .torrents td:nth-child(3),
-.torrents td:nth-child(4) {
+.torrents td:nth-child(4),
+.torrents td:nth-child(5) {
   text-align: center;
 }
 .torrents .magnetLink {
