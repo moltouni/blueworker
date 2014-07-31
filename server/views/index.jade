@@ -19,7 +19,10 @@ block content
 						a(data-bind="attr: { href: MagnetLink }").magnetLink
 					td(data-bind='text: Name')
 					td(data-bind='text: PriorityCounter')
-					td(data-bind='text: Seeders')
+					td
+						span(data-bind='text: Seeders')
+						span /
+						span(data-bind='text: SeedersFull')
 					td(data-bind='text: Score')
 	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 	script(src='/scripts/knockout.js')

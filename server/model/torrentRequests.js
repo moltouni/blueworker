@@ -7,6 +7,7 @@ exports.CompileScheme = function CompileScheme() {
 		Name: String,
 		PriorityCounter: Number,
 		Seeders: Number,
+		SeedersFull: Number,
 		Score: Number
 	});
 
@@ -16,8 +17,9 @@ exports.CompileScheme = function CompileScheme() {
 	console.log("TorrentRequest Scheme compiled");
 };
 
+
 exports.UpdateTorrentRequest = function UpdateTorrentRequest(request, callback) {
-	request.Score = request.PriorityCounter - request.Sedders;
+	request.Score = request.PriorityCounter - request.Seeders;
 	request.save();
 	callback();
 };
@@ -29,6 +31,7 @@ exports.CreateTorrentRequest = function CreateTorrentRequest(link, name, callbac
 		Name: name || "Name not provided",
 		PriorityCounter: 1,
 		Seeders: 0,
+		SeedersFull: 0,
 		Score: 1
 	});
 	requestInstance.save();
