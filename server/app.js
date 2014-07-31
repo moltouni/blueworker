@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var stylus = require('stylus');
 var nib = require('nib');
 var torrentRequests = require('./model/torrentRequests');
+var magnet = require('magnet-uri');
 
 
 //
@@ -78,8 +79,27 @@ app.get('/', function(req, res) {
 	});
 });
 
-app.get('/api', function (req, res) {
-	res.send()
+app.get('/api/submit', function (req, res) {
+	var magnetLink = req.param("link");
+	var parsed = magnet(magnetLink);
+	
+	var Torrent = mongoose.model('TorrentRequest');
+	Torrent.find({ "MagnetLink": magnetLink }, function (error, data) {
+		if (data.length) {
+			data[0].PriorityCounter++;
+			data[0].save();
+			res.send("Updated");
+		} else {
+			var instance1 = new Torrent({
+				MagnetLink: magnetLink,
+				Name: parsed.dn,
+				PriorityCounter: 1,
+				Seeders: 0
+			});
+			instance1.save();
+			res.send("Created");
+		}
+	});
 });
 
 // Launch server
