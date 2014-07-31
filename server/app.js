@@ -11,35 +11,23 @@ var nib = require('nib');
 var torrentRequests = require('./model/torrentRequests');
 var magnet = require('magnet-uri');
 
-
 //
-// Express
-//
-var app = express();
-
 // Database
+//
 mongoose.connect('mongodb://localhost/blueworker_database');
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
 	console.log("Connection opened...");
 
-	// Create scheme
-	var torrentRequestSchema = new mongoose.Schema({
-		MagnetLink: String,
-		Name: String,
-		PriorityCounter: Number,
-		Seeders: Number
-	});
-
-	// Compile scheme
-	mongoose.model('TorrentRequest', torrentRequestSchema);
-
-	console.log("Scheme applyed.");
+	torrentRequests.CompileScheme();
 });
 
-// Config
+//
+// Express Config
+//
+var app = express();
+
 function compile(str, path) {
 	return stylus(str)
 		.set('filename', path)
@@ -63,6 +51,9 @@ app.configure(function () {
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+//
+// Express request registration
+//
 app.get('/', function(req, res) {
 	torrentRequests.GetTorrentList(0, 20, function (error, data) {
 		res.render('index',
@@ -72,6 +63,9 @@ app.get('/', function(req, res) {
 	});
 });
 
+// 
+// Express API request registration
+//
 app.get('/api/get', function(req, res) {
 	var startIndex = req.param("start");
 	var numberOfItems = req.param("limit");
@@ -100,22 +94,9 @@ app.get('/api/submit', function (req, res) {
 	});
 });
 
+//
 // Launch server
+//
 var server = app.listen(3000, function () {
 	console.log('Listening on port %d', server.address().port);
 });
-
-
-
-/**************************/
-/* CREATE INSTANCE        */
-/**************************/
-/*
-var Torrent = mongoose.model('TorrentRequest');
-var instance1 = new Torrent({
-	MagnetLink: "magnet:?xt=urn:btih:aecb9c886f67d6c36af4563152d143fefd3a1fff&dn=Dawn.Of.The.Planet.Of.The.Apes.2014.TS.XviD.MP3-RARBG&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Fopen.demonii.com%3A1337",
-	Name: "Dawn.Of.The.Planet.Of.The.Apes.2014.TS.XviD.MP3-RARBG",
-	PriorityCounter: 3,
-	Seeders: 1
-});
-*/

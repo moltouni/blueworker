@@ -1,5 +1,20 @@
 ﻿var mongoose = require('mongoose');
 
+exports.CompileScheme = function CompileScheme() {
+	// Create scheme
+	var torrentRequestSchema = new mongoose.Schema({
+		MagnetLink: String,
+		Name: String,
+		PriorityCounter: Number,
+		Seeders: Number
+	});
+
+	// Compile scheme
+	mongoose.model('TorrentRequest', torrentRequestSchema);
+
+	console.log("TorrentRequest Scheme compiled");
+};
+
 exports.UpdateTorrentRequest = function UpdateTorrentRequest(request, callback) {
 	request.save();
 	callback();
