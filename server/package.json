@@ -1,0 +1,16 @@
+﻿{
+    "name": "blueworker",
+    "description": "P2P seeder",
+    "version": "0.0.1",
+    "private": true,
+    "start": "node app",
+    "dependencies": {
+        "express": "3.x",
+        "jade": "*",
+        "connect": "*",
+        "stylus": "*",
+        "nib": "*",
+        "mongoose": "*",
+        "magnet-uri": "*"
+    }
+}

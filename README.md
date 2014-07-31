@@ -2,8 +2,14 @@
 
 ##Server
 
-###Node.js requirenments
+###MongoDB setup
 
-`npm install express`
+`md \data\db` in project folder
 
-`npm install magnet-uri`
+`C:\mongodb\bin\mongod.exe --dbpath d:\test\mongodb\data`
+
+###Node.js usage
+
+`npm install`
+
+`node app`

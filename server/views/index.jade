@@ -1,0 +1,20 @@
+﻿extend layout
+block content
+	.submition
+		input(id='submitLinkValue', type='text', placeholder='Magnet link')
+		.button(id='submitLink') Work!
+
+	.torrents
+		table
+			tbody
+				tr
+					th Name
+					th Priority
+					th Seed boxes
+			each torrent in torrents
+				tr 
+					td #{torrent.Name}
+					td #{torrent.PriorityCounter}
+					td #{torrent.Seeders}
+	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+	script(src='/scripts/clientScript.js')
