@@ -6,7 +6,7 @@
 
 `md \data\db` in project folder
 
-`C:\mongodb\bin\mongod.exe --dbpath d:\test\mongodb\data`
+`mongod.exe`
 
 ###Node.js usage
 

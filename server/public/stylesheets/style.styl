@@ -21,7 +21,7 @@ main-color = #6DB2F7
 background-color = #F7FBFF
 
 body
-  font-family 'Georgia'
+  font-family 'Segoe UI', 'Georgia'
   background-color background-color
   color #444
 
@@ -64,7 +64,7 @@ header
     padding 2px 6px
     margin 5px
   .button
-    height 26px
+    height 28px
     width 70px
     text-align center
     margin 5px
@@ -83,16 +83,27 @@ header
   table
     margin 0 auto
     margin-top 60px
-  
+  thead
+    line-height: 40px
+
   tr
     margin 4px 0
   th 
+    font-weight bold
     text-align center
     padding 2px 10px
   td
     color #555
-  td:nth-child(2), td:nth-child(3)
+  td:nth-child(3), td:nth-child(4)
     text-align center
+  .magnetLink
+    display block
+    width 24px
+    height 24px
+    margin 0px 5px
+    background url(/Images/Magnet.png) no-repeat
+  .magnetLink:hover
+    background-position-x -24px
 
 .sidebar
   float left
