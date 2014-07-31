@@ -20,9 +20,9 @@ block content
 					td(data-bind='text: Name')
 					td(data-bind='text: PriorityCounter')
 					td
-						span(data-bind='text: Seeders')
+						span(data-bind='text: Seeders', title='Downloading...')
 						span /
-						span(data-bind='text: SeedersFull')
+						span(data-bind='text: SeedersFull', title='Seeding...')
 					td(data-bind='text: Score')
 	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 	script(src='/scripts/knockout.js')
