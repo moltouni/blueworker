@@ -1,0 +1,14 @@
+.submition,
+.torrents {
+  margin: 60px 0;
+}
+.magnetLink {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0px 5px;
+  background: url("/Images/Magnet.png") no-repeat;
+}
+.magnetLink:hover {
+  background-position-x: -24px;
+}

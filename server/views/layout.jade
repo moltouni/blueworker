@@ -1,0 +1,24 @@
+﻿doctype
+html
+	head
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+		title #{title} - blueworker
+		link(class="cssdeck", rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css")
+		link(rel='stylesheet', href='/stylesheets/style.css')		
+
+		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+		script(src='/scripts/knockout.js')
+	body
+		header.container-fluid
+			.row-fluid
+				.span6.offset3
+					h1 blueworker
+		hr
+		.container-fluid
+			block content
+		hr
+		footer.container-fluid
+			.row-fluid
+				.span6.offset3
+					p Onetius team &copy; 2014.
