@@ -1,0 +1,27 @@
+{
+    "name": "blueworker-client",
+    "description": "P2P seeder",
+    "version": "0.0.1",
+    "private": true,
+    "contributors": [
+        {
+            "name": "Aleksandar Toplek",
+            "email": "aleksandar.toplek@gmail.com",
+            "url": "http://toplek.net"
+        },
+        {
+            "name": "Mario Novak"
+        }
+    ],
+    "main": "blueworker-client",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "bittorrent-client": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/moltouni/blueworker"
+    }
+}
