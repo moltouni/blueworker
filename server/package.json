@@ -10,6 +10,7 @@
         "stylus": "*",
         "nib": "*",
         "mongoose": "*",
-        "magnet-uri": "*"
+        "magnet-uri": "*",
+        "normalize-css": "*"
     }
 }

@@ -14,6 +14,7 @@
 - [Magnet-URI](https://github.com/feross/magnet-uri)
 - [Knockout.js](http://knockoutjs.com/)
 - [jQuery](http://jquery.com/)
+- [Bootstrap](http://getbootstrap.com/)
 
 ####MongoDB setup
 

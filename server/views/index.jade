@@ -1,29 +1,28 @@
 ﻿extend layout
 block content
-	.submition
-		input(id='submitLinkValue', type='text', placeholder='Magnet link')
-		.button(id='submitLink') Work!
-
-	.torrents
-		table
-			thead
-				tr
-					th
-					th Name
-					th Priority
-					th Seed boxes
-					th Score
-			tbody(data-bind='foreach: torrents')
-				tr
-					td
-						a(data-bind="attr: { href: MagnetLink }").magnetLink
-					td(data-bind='text: Name')
-					td(data-bind='text: PriorityCounter')
-					td
-						span(data-bind='text: Seeders')
-						span /
-						span(data-bind='text: SeedersFull')
-					td(data-bind='text: Score')
-	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
-	script(src='/scripts/knockout.js')
+	.row-fluid.submition
+		.input-append
+			input(id='submitLinkValue', type='text', placeholder='Magnet link').span4.offset4
+			button(id='submitLink', type="button").btn.btn-primary Arrrrrrghh!
+	.row-fluid.torrents
+		.span6.offset3
+			table.table.table-striped
+				thead
+					tr
+						th
+						th Name
+						th Priority
+						th Seed boxes
+						th Score
+				tbody(data-bind='foreach: torrents')
+					tr
+						td
+							a(data-bind="attr: { href: MagnetLink }").magnetLink
+						td(data-bind='text: Name')
+						td(data-bind='text: PriorityCounter')
+						td
+							span(data-bind='text: Seeders', title='Downloading...')
+							span /
+							span(data-bind='text: SeedersFull', title='Seeding...')
+						td(data-bind='text: Score')
 	script(src='/scripts/clientScript.js')
