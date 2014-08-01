@@ -2,7 +2,7 @@
 
 ##Server
 
-###Libraries
+### Libraries
 
 - [Node.js](http://nodejs.org/)
 - [Express](http://expressjs.com/)
@@ -16,14 +16,12 @@
 - [jQuery](http://jquery.com/)
 - [Bootstrap](http://getbootstrap.com/)
 
-###MongoDB setup
+### MongoDB setup
 
-`md \data\db` in project folder
+    md \data\db
+    mongod.exe
 
-`mongod.exe`
+### Node.js usage
 
-###Node.js usage
-
-`npm install`
-
-`node app`
+    npm install
+    npm start
