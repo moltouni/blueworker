@@ -1,8 +1,8 @@
-##blueworker
+#blueworker
 
-###Server
+##Server
 
-###Libraries
+### Libraries
 
 - [Node.js](http://nodejs.org/)
 - [Express](http://expressjs.com/)
@@ -14,15 +14,14 @@
 - [Magnet-URI](https://github.com/feross/magnet-uri)
 - [Knockout.js](http://knockoutjs.com/)
 - [jQuery](http://jquery.com/)
+- [Bootstrap](http://getbootstrap.com/)
 
-####MongoDB setup
+### MongoDB setup
 
-`md \data\db` in project folder
+    md \data\db
+    mongod.exe
 
-`mongod.exe`
+### Node.js usage
 
-####Node.js usage
-
-`npm install`
-
-`node app`
+    npm install
+    npm start
